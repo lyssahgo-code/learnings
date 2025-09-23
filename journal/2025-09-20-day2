@@ -1,0 +1,51 @@
+# Journal — 9-20-2025 — More SQL, Joins, & Data Modeling
+
+
+## 1) What I learned (bullets, not prose)
+- Explaining in pipeline format is important: Ingest into raw, clean data, move to mart
+- 3 stage pipeline: **Sandbox → DLT → DBT**
+- Sandbox is supposed to be ephemeral/exploratory, not for production
+- DBeaver: where we can test queries and see pipeline flow/schemas
+- Think of where you should run SQL queries and why:
+    - Sandbox: temporary/views
+    - DBT: production-ready
+    - Metabase: end-user dashboards
+- Engine=Memory does not save results, need to set another value to save
+- `@dlt.resource(name="table name")`: example of standard table naming in pipeline
+- When it comes to ERM, tables normally represent **entities**, **attributes** represent properties/features of entities, then **relationships** are basically business rules defining how each entity relates to each other
+- Why normalize: To prevent contradictions
+- **Normalization** is a series of *quality checks*, think of safety levels. part of design phase for database modeling
+    - 1NF: atomicity, keys, no repeating groups, no multi-valued fields
+    - 2NF: no partial dependencies (if only part of a key changes, the attribute shouldn’t stay the same)
+    - 3NF: no transitive dependencies
+- Dimensional modeling workflow: business questions > define the grain > identify dimensions (the "W's") > build fact table > conform dimensions > load and test
+- Always split between **facts (measures)** and **dimensions (context/questions)**
+
+## 2) New vocabulary (define in your own words)
+- YAML - configuration file used both by dbt and dlt
+- Chinook - sample database simulating a digital media store 
+- Entity Relationship Model - representation of underlying schema, important for communicating how data is presented and should be cascaded with everyone
+
+## 3) Data Engineering mindset applied (what principles did I use?)
+- Pipelines! 
+
+## 4) Decisions & assumptions (why, alternatives, trade-offs)
+- When I got the error: `Table raw.autompg___cars` does not exist, I had to check if all files were updated properly — source SQL under **models/clean**, and the ref SQL under **models/mart**
+
+## 5) Open questions (things I still don’t get)
+- How are pipelines designed?
+
+## 6) Next actions (small, doable steps)
+- [] Study more about data pipeline flow and additionally, about their design
+- [] Study about data modeling and esp. dimensional modeling
+- [] Brush up on SQL Joins knowledge lol
+
+## 7) Artifacts & links (code, queries, dashboards)
+- N/A
+
+---
+
+### Mini reflection (3–5 sentences)
+What surprised me? What would I do differently next time? What will I watch out for in production?
+
+What surprised me most is how much effort actually goes into ingesting data and building pipelines before analysis can even happen. Coming in with no tech background, my *normie brain* felt overwhelmed at first, but I ended up impressed and motivated to dig deeper. Next time, I’d like to focus more on that pipeline-building part instead of leaning mostly on analysis like I did in our group work this week. For production, I’ll be extra mindful about where data should live—sandbox for exploration, and mart for production-ready use
